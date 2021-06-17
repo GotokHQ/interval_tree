@@ -431,6 +431,19 @@ class IntervalTree with IterableMixin<Interval> {
     return false;
   }
 
+  bool overlap(dynamic interval) {
+    final iv = _asInterval(interval);
+    BidirectionalIterator<Interval?> it = _tree.fromIterator(iv!);
+    while (it.movePrevious()) {
+      if (iv.intersects(it.current!)) return true;
+    }
+    it = _tree.fromIterator(iv, inclusive: false);
+    while (it.moveNext()) {
+      if (it.current!.intersects(iv)) return true;
+    }
+    return false;
+  }
+
   /// Returns the number of intervals in this tree.
   @override
   int get length => _tree.length;
