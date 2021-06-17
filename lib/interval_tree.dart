@@ -434,11 +434,11 @@ class IntervalTree with IterableMixin<Interval> {
   bool overlap(dynamic interval, {bool inclusive = true}) {
     final iv = _asInterval(interval);
     BidirectionalIterator<Interval?> it =
-        _tree.fromIterator(iv!, inclusive: inclusive);
+        _tree.fromIterator(iv!, inclusive: false);
     while (it.movePrevious()) {
       if (iv.intersects(it.current!)) return true;
     }
-    it = _tree.fromIterator(iv, inclusive: inclusive);
+    it = _tree.fromIterator(iv, inclusive: true);
     while (it.moveNext()) {
       if (it.current!.intersects(iv)) return true;
     }
